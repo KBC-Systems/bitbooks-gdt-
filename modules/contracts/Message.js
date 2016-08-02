@@ -1,5 +1,4 @@
-var private = {}, self = null,
-	library = null, modules = null;
+var private = {}, self = null, library = null, modules = null;
 
 function Message(cb, _library) {
 	self = this;
