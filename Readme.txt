@@ -1,1 +1,1 @@
-Vivek Ausekar:Basic Lisk Application Structure.
+Lisk Application: bitbooks-gdt-
