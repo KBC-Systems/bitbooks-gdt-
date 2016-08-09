@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-       <meta charset="utf-8">
-       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-		<title>bitbooks(gdt)</title>
-
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>BitBooks</title>
         <meta name="description" content="">
         <link rel="icon" href="favicon.ico?v=2" type="image/x-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,230 +11,30 @@
         <!-- inject:css -->
         <link rel="stylesheet" href="css/all.css">
         <!-- endinject -->
-        <style>
-			table, th, td {
-				border: 1px solid black;
-			}
-			th, td {
-				text-align: center;
-			}
-			table {
-				width:100%;
-			}
-		</style>
-		<script src="js/jquery.js"></script>
-		<script src="js/jquery.min.js"></script>
-			<script type="text/javascript">
-				// get dapp_id and urls
-				var url_parts = window.location.href.split('/');
-				var dapp_id = url_parts[4];
-				var node_url = window.location.origin;
-				var node_api_url = node_url + "/api";
-				var dapp_api_url = node_url + "/api/dapps/" + dapp_id + "/api";
-				var dapp_api_url2 = node_url + "/dapps/api/" + dapp_id + "/api";
-				var api_url_parameter = "/accounts/getBalance?address=14689731924039906747L";
-				
-				console.log(url_parts);
-				console.log(dapp_id);
-				console.log(node_url);
-				console.log(node_api_url);
-				console.log(dapp_api_url);
-				console.log(api_url_parameter);
-				
-				// Get Hello World API json response
-				$(document).ready(function(){
-				
-					$('#chk_balance').on("click", function() {
-						$.ajax({
-							url: node_api_url + api_url_parameter,
-							type: 'GET',
-							dataType: 'json'
-						}).done(function(data) {
-							$('#api_response').replaceWith(JSON.stringify(data));
-						});
-					});
-				
-					$('#account_details').on("click", function() {
-						$.ajax({
-							url: node_api_url + "/accounts/open",
-							type: 'POST',
-							dataType: 'json',
-							data: {"secret": "chair pear expose cover slow hole three shove soul suggest noble submit"}
-						}).done(function(data) {
-							$('#api_response2').replaceWith(JSON.stringify(data));
-						});
-					});
-				
-					$.ajax({
-						url: node_api_url + "/loader/status",
-						type: 'GET',
-						dataType: 'json'
-					}).done(function(data) {
-						$('#api_response3').append(JSON.stringify(data));
-					});
-					
-					$.ajax({
-						url: node_api_url + "/dapps/categories",
-						type: 'GET',
-						dataType: 'json'
-					}).done(function(data) {
-						$('#api_response4').append(JSON.stringify(data));
-					});
-					
-					$('#add_messages').on("click", function() {
+        
+    </head>
+    <body>
 
-						var msg = $('#msg').val();
-						alert(msg);
-						
-						url = dapp_api_url + "/messages/add";
+        <app><div class="spinner"></div></app>
 
-						$.ajax({
-							url: url,
-							type: 'PUT',
-							dataType: 'json',
-							data: {"recipientId": "14689731924039906747L", "message": msg, "secret": "chair pear expose cover slow hole three shove soul suggest noble submit"}
-						}).done(function(data) {
-							alert('success');
-							$('#api_response5').replaceWith(JSON.stringify(data));
-						}).fail(function() {
-						
-							console.log('Not Found URL' +''+ url);
-							url = dapp_api_url2 + "/messages/add";
-							
-								$.ajax({
-									url: url,
-									type: 'PUT',
-									dataType: 'json',
-									data: {"recipientId": "14689731924039906747L", "message": msg, "secret": "chair pear expose cover slow hole three shove soul suggest noble submit"}
-								}).done(function(data) {
-									alert('success');
-									$('#api_response5').replaceWith(JSON.stringify(data));
-								}).fail(function() {
-									alert('Not Found URL2' + url);
-								});
-						});
-					});
-					
-					$('#list_messages').on("click", function() {
-					
-						url = dapp_api_url + "/messages/list?recipientId=14689731924039906747L";
-						
-						$.ajax({
-							url: url,
-							type: 'GET',
-							dataType: 'json'
-						}).done(function(data) {
-							alert('success');
-							$('#api_response6').replaceWith(JSON.stringify(data));
-						}).fail(function() {
-						
-							console.log('Not Found URL' +''+ url);
-							url = dapp_api_url2 + "/messages/list?recipientId=14689731924039906747L";
-							
-								$.ajax({
-									url: url,
-									type: 'GET',
-									dataType: 'json'
-								}).done(function(data) {
-									alert('success');
-									$('#api_response6').replaceWith(JSON.stringify(data));
-								}).fail(function() {
-									alert('Not Found URL2' + url);
-								});
-						});
-					});
-				});
-			</script>
-		</head>
-		<body>
-
-        <app>
-			<div class="spinner"></div>
-			<h1>API Operations:</h1>
-			<table>
-				<tr>
-					<th>Title</td>
-					<th>API Type</td>
-					<th>Value</td>
-					<th>Event</td>
-					<th>Result</td>
-				</tr>
-				<tr>
-					<td>Check Balance:</td>
-					<td>Node Level</td>
-					<td></td>
-					<td><input type="button" id='chk_balance' value='Check Balance'></input></td>
-					<td><pre><span id="api_response"></pre></span></td>
-				</tr>
-				<tr>
-					<td>Account Details:</td>
-					<td>Node Level</td>
-					<td></td>
-					<td><input type="button" id='account_details' value='Account Details'></input></td>
-					<td><span id="api_response2"></pre></span></td>
-				</tr>
-				<tr>
-					<td>Message Add:</td>
-					<td>Application Level</td>
-					<td><input type='text' id='msg'></input></td>
-					<td><input type="button" id='add_messages' value='Add Message'></input></td>
-					<td><span id="api_response5"></pre></span></td>
-				</tr>
-				<tr>
-					<td>Message List:</td>
-					<td>Application Level</td>
-					<td></td>
-					<td><input type="button" id='list_messages' value='List Message'></input></td>
-					<td><span id="api_response6"></pre></span></td>
-				</tr>
-				<tr>
-					<td>Insert User:</td>
-					<td>Application Level</td>
-					<td></td>
-					<td><input type="button" id='add_user' value='Add User'></input></td>
-					<td><span id="api_response6"></pre></span></td>
-				</tr>
-				<tr>
-					<td>List Users:</td>
-					<td>Application Level</td>
-					<td></td>
-					<td><input type="button" id='list_users' value='List Users'></input></td>
-					<td><span id="api_response6"></pre></span></td>
-				</tr>
-				<tr>
-					<td>Edit User:</td>
-					<td>Application Level</td>
-					<td></td>
-					<td><input type="button" id='edit_user' value='Edit User'></input></td>
-					<td><span id="api_response6"></pre></span></td>
-				</tr>
-				<tr>
-					<td>Delete Users:</td>
-					<td>Application Level</td>
-					<td></td>
-					<td><input type="button" id='delete_users' value='Delete User'></input></td>
-					<td><span id="api_response6"></pre></span></td>
-				</tr>
-			</table>
-		</app>
-		
         <script>
-			// function.name (all IE)
-			// Remove once https://github.com/angular/angular/issues/6501 is fixed.
-			/*! @source http://stackoverflow.com/questions/6903762/function-name-not-supported-in-ie*/
-			if (!Object.hasOwnProperty('name')) {
-				Object.defineProperty(Function.prototype, 'name', {
-					get: function() {
-						var matches = this.toString().match(/^\s*function\s*(\S*)\s*\(/);
-						var name = matches && matches.length > 1 ? matches[1] : "";
-					// For better performance only parse once, and then cache the
-					// result through a new accessor for repeated access.
-					Object.defineProperty(this, 'name', {value: name});
-					return name;
-					}
-				});
-			}
-		</script>
+    // function.name (all IE)
+    // Remove once https://github.com/angular/angular/issues/6501 is fixed.
+    /*! @source http://stackoverflow.com/questions/6903762/function-name-not-supported-in-ie*/
+    if (!Object.hasOwnProperty('name')) {
+        Object.defineProperty(Function.prototype, 'name', {
+            get: function() {
+                var matches = this.toString().match(/^\s*function\s*(\S*)\s*\(/);
+                var name = matches && matches.length > 1 ? matches[1] : "";
+            // For better performance only parse once, and then cache the
+            // result through a new accessor for repeated access.
+            Object.defineProperty(this, 'name', {value: name});
+            return name;
+            }
+        });
+    }
+    </script>
+
     <!-- ref:js -->
     <!-- endinject -->
 
@@ -251,7 +49,9 @@
     <script src="js/shims.js"></script>
     <script src="js/app.js"></script>
     <!-- endinject -->
-	
-		
-	</body>
+
+
+    
+
+</body>
 </html>

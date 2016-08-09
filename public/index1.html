@@ -1,30 +1,176 @@
-<html>
+<!DOCTYPE html>
 <head>
-    <title>Lisk DAPP: Hello, world!</title>
-    <script src="js/jquery.js"></script>
-	<script src="js/jquery.min.js"></script>
+<title>bitbooks(gdt)</title>
+<style>
+table, th, td {
+	border: 1px solid black;
+}
 
-    <script type="text/javascript">
-        // get dapp_id and urls
-        var url_parts = window.location.href.split('/');
-        var dapp_id = url_parts[4];
-        var node_url = window.location.origin;
-        var dapp_api_url = node_url + "/api/dapps/" + dapp_id + "/api";
+th, td {
+	text-align: center;
+}
 
-        // Get Hello World API json response
-        $(document).ready(function(){
-            $.ajax({
-                url: dapp_api_url + '/',
-                type: 'GET',
-                dataType: 'json'
-            }).done(function(data) {
-                $('#api_response').append(JSON.stringify(data));
-            });
-        });
-    </script>
+table {
+	width: 100%;
+}
+</style>
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript">
+		// get dapp_id and urls
+		var url_parts = window.location.href.split('/');
+		var dapp_id = url_parts[4];
+		var node_url = window.location.origin;
+		var node_api_url = node_url + "/api";
+		var dapp_api_url = node_url + "/api/dapps/" + dapp_id + "/api";
+		var api_url_parameter = "/accounts/getBalance?address=14689731924039906747L";
+	
+		// Get Hello World API json response
+		$(document).ready(function() {
+	
+			$('#chk_balance').on("click", function() {
+				$.ajax({
+					url : node_api_url + api_url_parameter,
+					type : 'GET',
+					dataType : 'json'
+				}).done(function(data) {
+					$('#api_response').replaceWith(JSON.stringify(data));
+				});
+			});
+	
+			$('#account_details').on("click", function() {
+	
+				var psf1 = $('#passphrase1').val();
+	
+				$.ajax({
+					url : node_api_url + "/accounts/open",
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						"secret" : psf1
+					}
+				}).done(function(data) {
+					$('#api_response2').replaceWith(JSON.stringify(data));
+				});
+			});
+	
+			$('#add_messages').on("click", function() {
+	
+				var msg = $('#msg').val();
+				var psf = $('#passphrase').val();
+				var acc = $('#acc').val();
+	
+				url = dapp_api_url + "/messages/add";
+	
+				$.ajax({
+					url : url,
+					type : 'PUT',
+					dataType : 'json',
+					data : {
+						"recipientId" : acc,
+						"message" : msg,
+						"secret" : psf
+					}
+				}).done(function(data) {
+					alert('success');
+					$('#api_response5').replaceWith(JSON.stringify(data));
+				}).fail(function() {
+					alert('Not Found URL' + url);
+				});
+			});
+	
+			$('#list_messages').on("click", function() {
+	
+				var acc1 = $('#acc1').val();
+	
+				url = dapp_api_url + "/messages/list?recipientId=" + acc1;
+	
+				$.ajax({
+					url : url,
+					type : 'GET',
+					dataType : 'json'
+				}).done(function(data) {
+					alert('success');
+					$('#api_response6').replaceWith(JSON.stringify(data));
+				}).fail(function() {
+					alert('Not Found URL' + url);
+				});
+			});
+		});
+	</script>
 </head>
-
 <body>
-    <h1>API Response: <span id="api_response"></span></h1>
+	<h1>API Operations:</h1>
+	<table>
+		<tr>
+			<th Style="width: 100px";>Title
+			</td>
+			<th Style="width: 100px";>API Type
+			</td>
+			<th Style="width: 100px";>Value
+			</td>
+			<th Style="width: 100px";>Event
+			</td>
+			<th>Result
+			</td>
+		</tr>
+		<tr>
+			<td>Check Balance:</td>
+			<td>Node Level</td>
+			<td><br>
+				<div align='left'>
+					Enter AcoountID:<input style="border: 1px solid gray;"
+						; type='text' id='account'></input>
+				</div> <br></td>
+			<td><input style="border: 1px solid gray;" ; type="button"
+				id='chk_balance' value='Check Balance'></input></td>
+			<td><pre>
+					<span id="api_response">
+				</pre></span></td>
+		</tr>
+		<tr>
+			<td>Account Details:</td>
+			<td>Node Level</td>
+			<td><br>
+				<div align='left'>
+					Enter Passphrase:<input style="border: 1px solid gray;"
+						; type='text' id='passphrase1'></input>
+				</div> <br></td>
+			<td><input style="border: 1px solid gray;" ; type="button"
+				id='account_details' value='Account Details'></input></td>
+			<td><span id="api_response2"></pre></span></td>
+		</tr>
+		<tr>
+			<td>Message Add:</td>
+			<td>Application Level</td>
+			<td><br>
+				<div align='left'>
+					Enter AcoountID:<input style="border: 1px solid gray;"
+						; type='text' id='acc'></input>
+				</div>
+				<div align='left'>
+					Enter Message:<input style="border: 1px solid gray;" ; type='text'
+						id='msg'></input>
+				</div>
+				<div align='left'>
+					Enter Passphrase:<input style="border: 1px solid gray;"
+						; type='text' id='passphrase'></input>
+				</div> <br></td>
+			<td><input type="button" id='add_messages' value='Add Message'></input></td>
+			<td><span id="api_response5"></pre></span></td>
+		</tr>
+		<tr>
+			<td>Message List:</td>
+			<td>Application Level</td>
+			<td><br>
+				<div align='left'>
+					Enter AcoountID:<input style="border: 1px solid gray;"
+						; style="border: 1px solid gray;" ; type='text' id='acc1'></input>
+				</div> <br></td>
+			<td><input style="border: 1px solid gray;" ; type="button"
+				id='list_messages' value='List Message'></input></td>
+			<td><span id="api_response6"></pre></span></td>
+		</tr>
+	</table>
+	</pre>
 </body>
 </html>

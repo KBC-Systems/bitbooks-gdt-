@@ -1,1 +1,0 @@
-Basic Lisk Application Structure.
