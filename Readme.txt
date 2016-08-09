@@ -12,6 +12,6 @@ Installation :
 
 NOTE: bitbooks dapp is currently under development phase.
 
-                                                                                        bitbooks-gdt-         : Lisk dapp
-                                                                                        Version               : 0.1
-                                                                                        Lisk Version          : 0.3.2
+                                                                      bitbooks-gdt-         : Lisk dapp
+                                                                      Version               : 0.1
+                                                                      Lisk Version          : 0.3.2
